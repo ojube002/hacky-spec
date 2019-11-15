@@ -14,7 +14,6 @@ module.exports = function (grunt) {
   const TYPESCRIPT_MODEL_VERSION = "2.0";
 
   grunt.registerMultiTask('typescript-spec-post-process', 'Post process', function () {
-    //if (process.env.PAKKASMARJA_FOLDER) {
     const rootFolder = "./typescript-client-generated";
     const apiFolder = `${rootFolder}/api`;
     const modelFolder = `${rootFolder}/model`;
@@ -34,7 +33,6 @@ module.exports = function (grunt) {
     fs.renameSync(`${this.data.folder}/api/api.ts`, `${rootFolder}/index.ts`);
     fs.renameSync(`${this.data.folder}/api`, apiFolder);
     fs.renameSync(`${this.data.folder}/model`, modelFolder);
-    //  }
 
   });
 
