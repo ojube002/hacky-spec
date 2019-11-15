@@ -1,0 +1,40 @@
+using System.Collections;
+using System;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
+
+namespace Hacky.services {
+
+{{#operations}}
+    public class {{classname}} {
+        {{#operation}}
+
+        /**
+        * {{&notes}}
+        {{#summary}}
+        * @summary {{&summary}}
+        {{/summary}}
+        {{#allParams}}   
+        * @param {{paramName}} {{description}}
+        {{/allParams}}
+        */
+        public IEnumerator {{nickname}}({{#allParams}} {{{dataType}}} {{{dataType}}} {{/allParams}}) {
+            using (UnityWebRequest www = UnityWebRequest.{{httpMethod}}("https://bittineuvos.com/api{{{path}}}"))
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+            }
+        }
+
+        {{/operation}}
+
+    }
+{{/operations}}
+
+} 

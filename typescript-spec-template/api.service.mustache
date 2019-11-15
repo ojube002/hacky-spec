@@ -1,0 +1,39 @@
+import { Application, Response, Request } from "express";
+import * as Keycloak from "keycloak-connect";
+import AbstractService from "../abstract-service";
+
+{{#operations}}
+export default abstract class {{classname}} extends AbstractService {
+
+  /**
+   * Constructor
+   * 
+   * @param app Express app
+   * @param keycloak Keycloak
+   */
+  constructor(app: Application, keycloak: Keycloak) {
+    super();
+
+    {{#operations}}
+    {{#operation}}
+    app.{{httpMethod}}(`/api/${this.toPath('{{{path}}}')}`, [ keycloak.protect() ], this.catchAsync(this.{{{nickname}}}.bind(this)));
+    {{/operation}}
+    {{/operations}}
+  }
+
+{{#operation}}
+
+  /**
+   * {{&notes}}
+   {{#summary}}
+   * @summary {{&summary}}
+   {{/summary}}
+   * Accepted parameters:
+{{#allParams}}    * - ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isCookieParam}}cookie{{/isCookieParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{{dataType}}} {{paramName}} - {{description}}
+{{/allParams}}
+  */
+  public abstract {{nickname}}(req: Request, res: Response): Promise<void>;
+
+{{/operation}}
+{{/operations}}
+}

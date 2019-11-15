@@ -1,0 +1,11 @@
+    public struct {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{ {{>modelGenericAdditionalProperties}}
+    {{#vars}}
+        {{#description}}
+        /**
+        * {{{description}}}
+        */
+        {{/description}}
+        public {{datatype}} {{name}};
+    {{/vars}}
+
+    }{{>modelGenericEnums}}

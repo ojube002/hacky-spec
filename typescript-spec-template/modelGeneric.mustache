@@ -1,0 +1,21 @@
+export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{ {{>modelGenericAdditionalProperties}}
+{{#vars}}
+    {{#description}}
+    /**
+     * {{{description}}}
+     */
+    {{/description}}
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}Date{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{{datatype}}}{{/isDateTime}}{{/isDate}}{{/isEnum}} {{^required}} | null{{/required}};
+{{/vars}}
+}    
+
+export interface {{classname}}Opt {{#parent}}extends {{{parent}}} {{/parent}}{ {{>modelGenericAdditionalProperties}}
+{{#vars}}
+    {{#description}}
+    /**
+     * {{{description}}}
+     */
+    {{/description}}
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}?: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}Date{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{{datatype}}}{{/isDateTime}}{{/isDate}}{{/isEnum}};
+{{/vars}}
+}{{>modelGenericEnums}}
