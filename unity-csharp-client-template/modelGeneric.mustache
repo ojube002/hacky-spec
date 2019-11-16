@@ -1,4 +1,6 @@
-    public struct {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{ {{>modelGenericAdditionalProperties}}
+    [Serializable]
+    public class {{classname}} : {{#parent}}extends {{{parent}}} , {{/parent}} IJsonSerializable { {{>modelGenericAdditionalProperties}}
+        
     {{#vars}}
         {{#description}}
         /**
@@ -7,8 +9,20 @@
         {{/description}}
         public {{datatype}} {{name}};
     {{/vars}}
+        public {{classname}}(string json)
+        {
+            var c = JsonUtility.FromJson<{{classname}}>(json);
+            // copy fields
+            {{#vars}}
+            {{name}} = c.{{name}};
+            {{/vars}}
+        }
+        public string ToJson(){
+            return JsonUtility.ToJson(this);
+        }
 
-    public void ToJson(){
-        return JsonUtility.ToJson(this);
-    }
+        public static {{classname}} CreateFromJson(string json)
+        {
+            return JsonUtility.FromJson<{{classname}}>(json);
+        }
     }{{>modelGenericEnums}}
