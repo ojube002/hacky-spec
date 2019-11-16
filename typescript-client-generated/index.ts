@@ -2,7 +2,6 @@ import { Application } from "express";
 import * as Keycloak from "keycloak-connect";
 
 import CharactersServiceImpl from './impl/characters.service';
-import NewsArticlesServiceImpl from './impl/newsArticles.service';
 
 export default class Api {
 
@@ -15,8 +14,6 @@ export default class Api {
   constructor(app: Application, keycloak: Keycloak) {
     
       new CharactersServiceImpl(app, keycloak);
-    
-      new NewsArticlesServiceImpl(app, keycloak);
     
   }
 }

@@ -1,210 +1,17 @@
 openapi: 3.0.3
 info:
-  title: Test rest api
+  title: hacky rest api
   description: REST API for test
   version: 3.0.0
 security:
   - bearer:
       []
 paths:
-  /newsArticles:
-    post:
-      operationId: createNewsArticle
-      summary: Create news article
-      description: Creates news article
-      tags:
-        - NewsArticles
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/NewsArticle"
-        description: Payload
-        required: true
-      responses:
-        "200":
-          description: Created news article
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NewsArticle"
-        "400":
-          description: Invalid request was sent to the server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-    get:
-      operationId: listNewsArticles
-      summary: Lists news articles
-      description: Lists news articles
-      tags:
-        - NewsArticles
-      responses:
-        "200":
-          description: List of news articles
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/NewsArticle"
-        "400":
-          description: Invalid request was sent to the server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-  "/newsArticles/{newsArticleId}":
-    get:
-      operationId: findNewsArticle
-      summary: Find news article
-      description: Finds news article by id
-      tags:
-        - NewsArticles
-      parameters:
-        - name: newsArticleId
-          required: true
-          in: path
-          description: news article id id
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "200":
-          description: A created news article
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NewsArticle"
-        "400":
-          description: Invalid request was sent to the server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-    put:
-      operationId: updateNewsArticle
-      summary: Update news article
-      description: Updates news article
-      tags:
-        - NewsArticles
-      parameters:
-        - name: newsArticleId
-          required: true
-          in: path
-          description: news article id id
-          schema:
-            type: integer
-            format: int32
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/NewsArticle"
-        description: Payload
-        required: true
-      responses:
-        "200":
-          description: Updated news article
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/NewsArticle"
-        "400":
-          description: Invalid request was sent to the server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-    delete:
-      operationId: deleteNewsArticle
-      summary: Delete news article
-      description: Deletes news article
-      tags:
-        - NewsArticles
-      parameters:
-        - name: newsArticleId
-          required: true
-          in: path
-          description: news article id id
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "204":
-          description: No content to indicate successful delete
-        "400":
-          description: Invalid request was sent to the server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
-  /characters:
+  /character:
     post:
       operationId: createCharacter
-      summary: Create news article
-      description: Creates news article
+      summary: Create character
+      description: Creates character
       tags:
         - Characters
       requestBody:
@@ -239,12 +46,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InternalServerError"
+  "/character/list/{userId}":
     get:
       operationId: listCharacters
       summary: Lists characters
       description: Lists Characters
       tags:
         - Characters
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          description: user id
+          schema:
+            type: string
       responses:
         "200":
           description: List of characters
@@ -272,6 +87,83 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InternalServerError"
+  "/character/{characterId}":
+    get:
+      operationId: findCharacter
+      summary: Find character
+      description: Finds character by id
+      tags:
+        - Characters
+      parameters:
+        - name: characterId
+          required: true
+          in: path
+          description: character id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A created news article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Character"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forbidden"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+    delete:
+      operationId: deleteCharacter
+      summary: Deletes a character
+      description: Deletes a character
+      tags:
+        - Characters
+      parameters:
+        - name: characterId
+          required: true
+          in: path
+          description: character id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted successfully character
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Character"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forbidden"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
 components:
   securitySchemes:
     bearer:
@@ -279,46 +171,22 @@ components:
       name: Authorization
       in: header
   schemas:
-    NewsArticle:
-      type: object
-      required:
-        - title
-        - contents
-      properties:
-        id:
-          type: integer
-          format: int64
-        title:
-          type: string
-        contents:
-          type: string
-        imageUrl:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        updatedAt:
-          type: string
-          format: date-time
-          readOnly: true
     Character:
       type: object
       required:
+        - id
         - name
-        - level
-        - experience
+        - userId
+        - statsId
       properties:
         id:
           type: string
         name:
           type: string
-        level:
-          type: integer
-          format: int64
-        experience:
-          type: integer
-          format: int64
+        userId:
+          type: string
+        statsId:
+          type: string
         createdAt:
           type: string
           format: date-time

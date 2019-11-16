@@ -4,15 +4,13 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { CharactersService } from './api/characters.service';
-import { NewsArticlesService } from './api/newsArticles.service';
 
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
   providers: [
-    CharactersService,
-    NewsArticlesService ]
+    CharactersService ]
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
