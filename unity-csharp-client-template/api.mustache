@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Hacky.rest.models;
 
 namespace Hacky.rest.services {
 
@@ -13,9 +14,19 @@ namespace Hacky.rest.services {
 
 
 {{#operations}}
-    public class {{classname}} {
-        {{#operation}}
+    public sealed class {{classname}} : MonoBehaviour
+    {
+        private {{classname}}() {}  
+        private static readonly Lazy<{{classname}}> lazy = new Lazy<{{classname}}>(() => new {{classname}}());  
+        public static {{classname}} Instance  
+        {  
+            get  
+            {  
+                return lazy.Value;  
+            }  
+        }  
 
+        {{#operation}}
         /**
         * {{&notes}}
         {{#summary}}
@@ -25,7 +36,7 @@ namespace Hacky.rest.services {
         * @param {{paramName}} {{description}}
         {{/allParams}}
         */
-        public static void {{nickname}}({{#allParams}} {{dataType}} {{paramName}}  {{#if @last}}, Action<{{dataType}}> onSuccess, Action<string> onError, string token, string json = null {{/if}} {{/allParams}}) {
+        public void {{nickname}}({{#allParams}} {{dataType}} {{paramName}}  {{#if @last}}, Action<{{dataType}}> onSuccess, Action<string> onError, string token, string json = null {{/if}} {{/allParams}}) {
            
            StartCoroutine(Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token, json));
         
@@ -33,11 +44,11 @@ namespace Hacky.rest.services {
 
         {{/operation}}
 
-        private static IEnumerator Request<T,K>(string reqmethod, string url, Action<T> onSuccess, Action<K> onError, string token, string json = null)
+        private IEnumerator Request<TModel,TError>(string reqmethod, string url, Action<TModel> onSuccess, Action<TError> onError, string token, string json = null)
         {
 
             
-            using (UnityWebRequest www = CreateRequest(reqmethod,url,data))
+            using (UnityWebRequest www = CreateRequest(reqmethod,url,json))
             {
                 www.SetRequestHeader("Authorization",$"Bearer {token}");
                 yield return www.SendWebRequest();
@@ -45,24 +56,26 @@ namespace Hacky.rest.services {
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                    onError($"{www.responseCode} : {www.downloadHandler.text}");
+                    var error = (TError)Activator.CreateInstance(typeof(TError), www.downloadHandler.text);
+                    onError(error);
                 }
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    onSuccess(new T(www.downloadHandler.text));
+                    var model = (TModel)Activator.CreateInstance(typeof(TModel), www.downloadHandler.text);
+                    onSuccess(model);
 
                 }
                  
             }
         }
-        private static UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
+        private UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
         {
             if(reqmethod == "POST") return UnityWebRequest.Post(url,data);
             else if(reqmethod == "GET") return UnityWebRequest.Get(url);
             else if(reqmethod == "PUT") return UnityWebRequest.Put(url,data);
             else if(reqmethod == "DELETE") return UnityWebRequest.Delete(url);
-
+            return null;
         }
        
     }
