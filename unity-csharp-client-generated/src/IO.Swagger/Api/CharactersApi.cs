@@ -9,21 +9,14 @@ namespace Hacky.services {
     public class CharactersApi {
 
         /**
-        * Creates news article
-        * @summary Create news article
-        * @param body Payload
+        * Creates new character
+        * @summary Create new character
+        * @param character character object
         */
-        public IEnumerator CreateCharacter( Character Character ) {
-            using (UnityWebRequest www = UnityWebRequest.POST("https://bittineuvos.com/api/characters"))
-            {
-                www.SetRequestHeader("Authorization",$"Bearer {token}");
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                else
-                    Debug.Log(www.downloadHandler.text);
-            }
+        public static void CreateCharacter( Character character  , Action<Character> onSuccess, Action<string> onError  ) {
+           
+           StartCoroutine(POST($"https://bittineuvos.com/api/characters",onSuccess, onError, json));
+        
         }
 
 
@@ -31,8 +24,16 @@ namespace Hacky.services {
         * Lists Characters
         * @summary Lists characters
         */
-        public IEnumerator ListCharacters() {
-            using (UnityWebRequest www = UnityWebRequest.GET("https://bittineuvos.com/api/characters"))
+        public static void ListCharacters() {
+           
+           StartCoroutine(GET($"https://bittineuvos.com/api/characters",onSuccess, onError, json));
+        
+        }
+
+
+        private static IEnumerator GET(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
             {
                 www.SetRequestHeader("Authorization",$"Bearer {token}");
                 yield return www.SendWebRequest();
@@ -41,10 +42,60 @@ namespace Hacky.services {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
                 else
                     Debug.Log(www.downloadHandler.text);
+
+                 
             }
         }
 
+        private static IEnumerator POST(string url, Action<string> onSuccess, Action<string> onError, string json = null){
 
+            Debug.AssertFormat(json == null, "json is null, check json parameter");
+            using (UnityWebRequest www = UnityWebRequest.Post(url,json))
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
+
+        private static IEnumerator PUT(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+            
+            Debug.AssertFormat(json == null, "json is null, check json parameter");
+            using (UnityWebRequest www = UnityWebRequest.Put(url),json)
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
+
+        private static IEnumerator DELETE(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+
+            using (UnityWebRequest www = UnityWebRequest.Delete(url))
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
     }
 
 } 

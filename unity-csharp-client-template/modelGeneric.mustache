@@ -8,4 +8,7 @@
         public {{datatype}} {{name}};
     {{/vars}}
 
+    public void ToJson(){
+        return JsonUtility.ToJson(this);
+    }
     }{{>modelGenericEnums}}

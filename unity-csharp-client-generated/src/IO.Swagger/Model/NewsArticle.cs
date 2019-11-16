@@ -9,6 +9,9 @@ namespace Hacky.models {
         public DateTime? CreatedAt;
         public DateTime? UpdatedAt;
 
+    public void ToJson(){
+        return JsonUtility.ToJson(this);
+    }
     }
 
 

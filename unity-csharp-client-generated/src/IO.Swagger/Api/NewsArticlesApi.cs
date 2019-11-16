@@ -13,17 +13,10 @@ namespace Hacky.services {
         * @summary Create news article
         * @param body Payload
         */
-        public IEnumerator CreateNewsArticle( NewsArticle NewsArticle ) {
-            using (UnityWebRequest www = UnityWebRequest.POST("https://bittineuvos.com/api/newsArticles"))
-            {
-                www.SetRequestHeader("Authorization",$"Bearer {token}");
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                else
-                    Debug.Log(www.downloadHandler.text);
-            }
+        public static void CreateNewsArticle( NewsArticle body  , Action<NewsArticle> onSuccess, Action<string> onError  ) {
+           
+           StartCoroutine(POST($"https://bittineuvos.com/api/newsArticles",onSuccess, onError, json));
+        
         }
 
 
@@ -32,17 +25,10 @@ namespace Hacky.services {
         * @summary Delete news article
         * @param newsArticleId news article id id
         */
-        public IEnumerator DeleteNewsArticle( int? int? ) {
-            using (UnityWebRequest www = UnityWebRequest.DELETE("https://bittineuvos.com/api/newsArticles/{newsArticleId}"))
-            {
-                www.SetRequestHeader("Authorization",$"Bearer {token}");
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                else
-                    Debug.Log(www.downloadHandler.text);
-            }
+        public static void DeleteNewsArticle( int? newsArticleId  , Action<int?> onSuccess, Action<string> onError  ) {
+           
+           StartCoroutine(DELETE($"https://bittineuvos.com/api/newsArticles/{newsArticleId}",onSuccess, onError, json));
+        
         }
 
 
@@ -51,17 +37,10 @@ namespace Hacky.services {
         * @summary Find news article
         * @param newsArticleId news article id id
         */
-        public IEnumerator FindNewsArticle( int? int? ) {
-            using (UnityWebRequest www = UnityWebRequest.GET("https://bittineuvos.com/api/newsArticles/{newsArticleId}"))
-            {
-                www.SetRequestHeader("Authorization",$"Bearer {token}");
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                else
-                    Debug.Log(www.downloadHandler.text);
-            }
+        public static void FindNewsArticle( int? newsArticleId  , Action<int?> onSuccess, Action<string> onError  ) {
+           
+           StartCoroutine(GET($"https://bittineuvos.com/api/newsArticles/{newsArticleId}",onSuccess, onError, json));
+        
         }
 
 
@@ -69,17 +48,10 @@ namespace Hacky.services {
         * Lists news articles
         * @summary Lists news articles
         */
-        public IEnumerator ListNewsArticles() {
-            using (UnityWebRequest www = UnityWebRequest.GET("https://bittineuvos.com/api/newsArticles"))
-            {
-                www.SetRequestHeader("Authorization",$"Bearer {token}");
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                else
-                    Debug.Log(www.downloadHandler.text);
-            }
+        public static void ListNewsArticles() {
+           
+           StartCoroutine(GET($"https://bittineuvos.com/api/newsArticles",onSuccess, onError, json));
+        
         }
 
 
@@ -89,8 +61,16 @@ namespace Hacky.services {
         * @param body Payload
         * @param newsArticleId news article id id
         */
-        public IEnumerator UpdateNewsArticle( NewsArticle NewsArticle  int? int? ) {
-            using (UnityWebRequest www = UnityWebRequest.PUT("https://bittineuvos.com/api/newsArticles/{newsArticleId}"))
+        public static void UpdateNewsArticle( NewsArticle body    int? newsArticleId  , Action<int?> onSuccess, Action<string> onError  ) {
+           
+           StartCoroutine(PUT($"https://bittineuvos.com/api/newsArticles/{newsArticleId}",onSuccess, onError, json));
+        
+        }
+
+
+        private static IEnumerator GET(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
             {
                 www.SetRequestHeader("Authorization",$"Bearer {token}");
                 yield return www.SendWebRequest();
@@ -99,10 +79,60 @@ namespace Hacky.services {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
                 else
                     Debug.Log(www.downloadHandler.text);
+
+                 
             }
         }
 
+        private static IEnumerator POST(string url, Action<string> onSuccess, Action<string> onError, string json = null){
 
+            Debug.AssertFormat(json == null, "json is null, check json parameter");
+            using (UnityWebRequest www = UnityWebRequest.Post(url,json))
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
+
+        private static IEnumerator PUT(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+            
+            Debug.AssertFormat(json == null, "json is null, check json parameter");
+            using (UnityWebRequest www = UnityWebRequest.Put(url),json)
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
+
+        private static IEnumerator DELETE(string url, Action<string> onSuccess, Action<string> onError, string json = null){
+
+            using (UnityWebRequest www = UnityWebRequest.Delete(url))
+            {
+                www.SetRequestHeader("Authorization",$"Bearer {token}");
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                    Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
+                else
+                    Debug.Log(www.downloadHandler.text);
+
+                 
+            }
+        }
     }
 
 } 

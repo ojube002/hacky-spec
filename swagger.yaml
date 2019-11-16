@@ -203,17 +203,17 @@ paths:
   /characters:
     post:
       operationId: createCharacter
-      summary: Create news article
-      description: Creates news article
+      summary: Create new character
+      description: Creates new character
       tags:
         - Characters
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Character"
-        description: Payload
-        required: true
+      parameters:
+        - in: path
+          name: character 
+          description: character object
+          required: true
+          schema:
+            $ref: "#/components/schemas/Character"
       responses:
         "200":
           description: Created Character

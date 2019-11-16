@@ -94,7 +94,7 @@ module.exports = function (grunt) {
           "-t unity-csharp-client-template/ " +
           "-o unity-csharp-client-generated/ " +
           "--template-engine handlebars " +
-          "--type-mappings int64=int,Boolean=boolean,Float=float,  "
+          "--type-mappings Integer=int,Boolean=bool,Float=float,  "
       }/* ,
       'typescript-client-bump-version': {
         command: 'npm version patch',

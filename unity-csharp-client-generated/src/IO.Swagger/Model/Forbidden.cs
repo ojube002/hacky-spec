@@ -5,6 +5,9 @@ namespace Hacky.models {
         public int? Code;
         public string Message;
 
+    public void ToJson(){
+        return JsonUtility.ToJson(this);
+    }
     }
 
 
