@@ -11,9 +11,9 @@ namespace Hacky.rest.services {
 {{#operations}}
     public sealed class {{classname}} : MonoBehaviour
     {
-       private static SomeClass _instance;
+       private static {{classname}} _instance;
 
-        public static SomeClass Instance => _instance; 
+        public static {{classname}} Instance => _instance; 
 
 
         private void Awake()

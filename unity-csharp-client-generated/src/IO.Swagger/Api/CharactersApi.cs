@@ -10,9 +10,9 @@ namespace Hacky.rest.services {
    
     public sealed class CharactersApi : MonoBehaviour
     {
-       private static SomeClass _instance;
+       private static CharactersApi _instance;
 
-        public static SomeClass Instance => _instance; 
+        public static CharactersApi Instance => _instance; 
 
 
         private void Awake()
