@@ -2,17 +2,16 @@ using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 using Hacky.rest.models;
 
 namespace Hacky.rest.services {
 
    
-    public sealed class CharactersApi : MonoBehaviour
+    public sealed class CharacterApi : MonoBehaviour
     {
-       private static CharactersApi _instance;
+       private static CharacterApi _instance;
 
-        public static CharactersApi Instance => _instance; 
+        public static CharacterApi Instance => _instance; 
 
 
         private void Awake()
@@ -30,8 +29,8 @@ namespace Hacky.rest.services {
         * @param body Payload
         */
         public void CreateCharacter( Character body, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-         
             
+           
            StartCoroutine(Request("POST", $"https://bittineuvos.com/api/character",onSuccess, onError, token, JsonUtility.ToJson(body)));
         
         }
@@ -42,8 +41,8 @@ namespace Hacky.rest.services {
         * @param characterId character id
         */
         public void DeleteCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-         
             
+           
            StartCoroutine(Request("DELETE", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         
         }
@@ -54,8 +53,8 @@ namespace Hacky.rest.services {
         * @param characterId character id
         */
         public void FindCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-         
             
+           
            StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         
         }
@@ -65,9 +64,9 @@ namespace Hacky.rest.services {
         * @summary Lists characters
         * @param userId user id
         */
-        public void ListCharacters( string userId, Action<List<Character>> onSuccess, Action<HttpError> onError, string token) {
-         
+        public void ListCharacters( string userId, Action<CharacterList> onSuccess, Action<HttpError> onError, string token) {
             
+           
            StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/list/{userId}",onSuccess, onError, token));
         
         }
@@ -94,21 +93,32 @@ namespace Hacky.rest.services {
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    var model = JsonUtility.FromJson<TModel>(www.downloadHandler.text);
+                    var model = JsonUtility.FromJson<TModel>(JsonHelper.fixJson(www.downloadHandler.text));
                     onSuccess(model);
 
                 }
                  
             }
         }
-        private UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
+       private UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
         {
-            if(reqmethod == "POST") return UnityWebRequest.Post(url,data);
-            else if(reqmethod == "GET") return UnityWebRequest.Get(url);
-            else if(reqmethod == "PUT") return UnityWebRequest.Put(url,data);
-            else if(reqmethod == "DELETE") return UnityWebRequest.Delete(url);
+            if (reqmethod == "POST")
+            {
+                var request = new UnityWebRequest(url, "POST");
+                byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(data);
+                request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                return request;
+                //return UnityWebRequest.Post(url, data);
+            }
+            else if (reqmethod == "GET") return UnityWebRequest.Get(url);
+            else if (reqmethod == "PUT") return UnityWebRequest.Put(url, data);
+            else if (reqmethod == "DELETE") return UnityWebRequest.Delete(url);
             return null;
         }
+
        
     }
 

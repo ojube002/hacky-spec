@@ -1,18 +1,32 @@
 using Hacky.rest.services;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+
 namespace Hacky.rest.models {
 
     [Serializable]
     public class Character   { 
         
-        public string Id;
-        public string Name;
-        public string UserId;
-        public string StatsId;
-        public DateTime? CreatedAt;
-        public DateTime? UpdatedAt;
+        public string id;
+        
+        public string name;
+        
+        public string userId;
+        
+        public string statsId;
+        
+        public DateTime? createdAt;
+        
+        public DateTime? updatedAt;
+        
        
+    }
+
+    [Serializable]
+    public class CharacterList
+    { 
+        public List<Character> items;   
     }
 
 

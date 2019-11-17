@@ -34,9 +34,9 @@ namespace Hacky.rest.services {
         * @param {{paramName}} {{description}}
         {{/allParams}}
         */
-        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}}{{/allParams}}, Action<{{{returnType}}}> onSuccess, Action<HttpError> onError, string token) {
-         
+        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}}{{/allParams}}, Action<{{#responses}}{{#isDefault}}{{#if isListContainer}}{{{baseName}}}List{{else}}{{baseName}}{{/if}}{{/isDefault}}{{/responses}}> onSuccess, Action<HttpError> onError, string token) {
             
+           
            StartCoroutine(Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token{{#allParams}}{{#if @first}}{{#is this 'string'}}{{else}}, JsonUtility.ToJson({{paramName}}){{/is}}{{/if}}{{/allParams}}));
         
         }
@@ -64,21 +64,32 @@ namespace Hacky.rest.services {
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    var model = JsonUtility.FromJson<TModel>(www.downloadHandler.text);
+                    var model = JsonUtility.FromJson<TModel>(JsonHelper.fixJson(www.downloadHandler.text));
                     onSuccess(model);
 
                 }
                  
             }
         }
-        private UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
+       private UnityWebRequest CreateRequest(string reqmethod, string url, string data = null)
         {
-            if(reqmethod == "POST") return UnityWebRequest.Post(url,data);
-            else if(reqmethod == "GET") return UnityWebRequest.Get(url);
-            else if(reqmethod == "PUT") return UnityWebRequest.Put(url,data);
-            else if(reqmethod == "DELETE") return UnityWebRequest.Delete(url);
+            if (reqmethod == "POST")
+            {
+                var request = new UnityWebRequest(url, "POST");
+                byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(data);
+                request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                return request;
+                //return UnityWebRequest.Post(url, data);
+            }
+            else if (reqmethod == "GET") return UnityWebRequest.Get(url);
+            else if (reqmethod == "PUT") return UnityWebRequest.Put(url, data);
+            else if (reqmethod == "DELETE") return UnityWebRequest.Delete(url);
             return null;
         }
+
        
     }
 {{/operations}}

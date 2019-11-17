@@ -7,7 +7,14 @@
         * {{{description}}}
         */
         {{/description}}
-        public {{datatype}} {{name}};
+        public {{datatype}} {{baseName}};
+        
     {{/vars}}
        
     }{{>modelGenericEnums}}
+
+    [Serializable]
+    public class {{classname}}List
+    { 
+        public List<{{classname}}> items;   
+    }
