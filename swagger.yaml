@@ -28,24 +28,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Character"
-        "400":
-          description: Invalid request was sent to the server
+        default:
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/HttpError"
   "/character/list/{userId}":
     get:
       operationId: listCharacters
@@ -69,24 +57,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Character"
-        "400":
-          description: Invalid request was sent to the server
+        default:
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/HttpError"
   "/character/{characterId}":
     get:
       operationId: findCharacter
@@ -108,24 +84,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Character"
-        "400":
-          description: Invalid request was sent to the server
+        default:
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/HttpError"
     delete:
       operationId: deleteCharacter
       summary: Deletes a character
@@ -146,24 +110,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Character"
-        "400":
-          description: Invalid request was sent to the server
+        default:
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BadRequest"
-        "403":
-          description: Attempted to make a call with unauthorized client
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Forbidden"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServerError"
+                $ref: "#/components/schemas/HttpError"
 components:
   securitySchemes:
     bearer:
@@ -195,40 +147,7 @@ components:
           type: string
           format: date-time
           readOnly: true
-
-    InternalServerError:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    Forbidden:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    BadRequest:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    NotImplemented:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-    NotFound:
+    HttpError:
       type: object
       properties:
         code:

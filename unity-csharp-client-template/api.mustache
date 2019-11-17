@@ -31,7 +31,7 @@ namespace Hacky.rest.services {
         * @param {{paramName}} {{description}}
         {{/allParams}}
         */
-        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}}{{/allParams}}, Action<{{{returnType}}}> onSuccess, Action<string> onError, string token) {
+        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}}{{/allParams}}, Action<{{{returnType}}}> onSuccess, Action<HttpError> onError, string token) {
          
             
            StartCoroutine(Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token{{#allParams}}{{#if @first}}{{#is this 'string'}}{{else}}, JsonUtility.ToJson({{paramName}}){{/is}}{{/if}}{{/allParams}}));
@@ -54,9 +54,9 @@ namespace Hacky.rest.services {
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                    //var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
-                    //onError(error);
-                    onError($"{www.responseCode} : {www.downloadHandler.text}");
+                    var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
+                    onError(error);
+                    //onError($"{www.responseCode} : {www.downloadHandler.text}");
                 }
                 else
                 {

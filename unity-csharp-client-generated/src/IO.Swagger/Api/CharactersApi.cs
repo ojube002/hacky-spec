@@ -25,7 +25,7 @@ namespace Hacky.rest.services {
         * @summary Create character
         * @param body Payload
         */
-        public void CreateCharacter( Character body, Action<Character> onSuccess, Action<string> onError, string token) {
+        public void CreateCharacter( Character body, Action<Character> onSuccess, Action<HttpError> onError, string token) {
          
             
            StartCoroutine(Request("POST", $"https://bittineuvos.com/api/character",onSuccess, onError, token, JsonUtility.ToJson(body)));
@@ -37,7 +37,7 @@ namespace Hacky.rest.services {
         * @summary Deletes a character
         * @param characterId character id
         */
-        public void DeleteCharacter( string characterId, Action<Character> onSuccess, Action<string> onError, string token) {
+        public void DeleteCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
          
             
            StartCoroutine(Request("DELETE", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
@@ -49,7 +49,7 @@ namespace Hacky.rest.services {
         * @summary Find character
         * @param characterId character id
         */
-        public void FindCharacter( string characterId, Action<Character> onSuccess, Action<string> onError, string token) {
+        public void FindCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
          
             
            StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
@@ -61,7 +61,7 @@ namespace Hacky.rest.services {
         * @summary Lists characters
         * @param userId user id
         */
-        public void ListCharacters( string userId, Action<List<Character>> onSuccess, Action<string> onError, string token) {
+        public void ListCharacters( string userId, Action<List<Character>> onSuccess, Action<HttpError> onError, string token) {
          
             
            StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/list/{userId}",onSuccess, onError, token));
@@ -83,9 +83,9 @@ namespace Hacky.rest.services {
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                    //var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
-                    //onError(error);
-                    onError($"{www.responseCode} : {www.downloadHandler.text}");
+                    var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
+                    onError(error);
+                    //onError($"{www.responseCode} : {www.downloadHandler.text}");
                 }
                 else
                 {
