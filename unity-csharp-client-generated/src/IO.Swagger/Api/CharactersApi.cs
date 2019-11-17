@@ -10,16 +10,20 @@ namespace Hacky.rest.services {
    
     public sealed class CharactersApi : MonoBehaviour
     {
-        private CharactersApi() {}  
-        private static readonly Lazy<CharactersApi> lazy = new Lazy<CharactersApi>(() => new CharactersApi());  
-        public static CharactersApi Instance  
-        {  
-            get  
-            {  
-                return lazy.Value;  
-            }  
-        }  
+       private static SomeClass _instance;
 
+        public static SomeClass Instance => _instance; 
+
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            } else {
+                _instance = this;
+            }
+        }
         /**
         * Creates character
         * @summary Create character
