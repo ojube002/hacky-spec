@@ -11,16 +11,20 @@ namespace Hacky.rest.services {
 {{#operations}}
     public sealed class {{classname}} : MonoBehaviour
     {
-        private {{classname}}() {}  
-        private static readonly Lazy<{{classname}}> lazy = new Lazy<{{classname}}>(() => new {{classname}}());  
-        public static {{classname}} Instance  
-        {  
-            get  
-            {  
-                return lazy.Value;  
-            }  
-        }  
+       private static SomeClass _instance;
 
+        public static SomeClass Instance => _instance; 
+
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            } else {
+                _instance = this;
+            }
+        }
         {{#operation}}
         /**
         * {{&notes}}
