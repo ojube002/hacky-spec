@@ -7,12 +7,7 @@ using Hacky.rest.models;
 
 namespace Hacky.rest.services {
 
-    interface IJsonSerializable
-    {
-        string ToJson();
-    }
-
-
+   
 {{#operations}}
     public sealed class {{classname}} : MonoBehaviour
     {
@@ -36,33 +31,37 @@ namespace Hacky.rest.services {
         * @param {{paramName}} {{description}}
         {{/allParams}}
         */
-        public void {{nickname}}({{#allParams}} {{dataType}} {{paramName}}  {{#if @last}}, Action<{{dataType}}> onSuccess, Action<string> onError, string token, string json = null {{/if}} {{/allParams}}) {
-           
-           StartCoroutine(Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token, json));
+        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}}{{/allParams}}, Action<{{{returnType}}}> onSuccess, Action<string> onError, string token) {
+         
+            
+           StartCoroutine(Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token{{#allParams}}{{#if @first}}{{#is this 'string'}}{{else}}, JsonUtility.ToJson({{paramName}}){{/is}}{{/if}}{{/allParams}}));
         
         }
 
         {{/operation}}
 
-        private IEnumerator Request<TModel,TError>(string reqmethod, string url, Action<TModel> onSuccess, Action<TError> onError, string token, string json = null)
+        private IEnumerator Request<TModel,TError>(string reqmethod, string url, Action<TModel> onSuccess, Action<TError> onError, string token, string data = null)
         {
 
             
-            using (UnityWebRequest www = CreateRequest(reqmethod,url,json))
+            using (UnityWebRequest www = CreateRequest(reqmethod,url,data))
             {
+                if(www == null) throw new NullReferenceException($"CreateRequest: no reqmethod {reqmethod} found");
+                if(data != null) www.SetRequestHeader("Content-Type", "application/json");
                 www.SetRequestHeader("Authorization",$"Bearer {token}");
                 yield return www.SendWebRequest();
 
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                    var error = (TError)Activator.CreateInstance(typeof(TError), www.downloadHandler.text);
-                    onError(error);
+                    //var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
+                    //onError(error);
+                    onError($"{www.responseCode} : {www.downloadHandler.text}");
                 }
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    var model = (TModel)Activator.CreateInstance(typeof(TModel), www.downloadHandler.text);
+                    var model = JsonUtility.FromJson<TModel>(www.downloadHandler.text);
                     onSuccess(model);
 
                 }

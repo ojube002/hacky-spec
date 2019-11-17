@@ -7,12 +7,7 @@ using Hacky.rest.models;
 
 namespace Hacky.rest.services {
 
-    interface IJsonSerializable
-    {
-        string ToJson();
-    }
-
-
+   
     public sealed class CharactersApi : MonoBehaviour
     {
         private CharactersApi() {}  
@@ -30,9 +25,10 @@ namespace Hacky.rest.services {
         * @summary Create character
         * @param body Payload
         */
-        public void CreateCharacter( Character body  , Action<Character> onSuccess, Action<string> onError, string token, string json = null  ) {
-           
-           StartCoroutine(Request("POST", $"https://bittineuvos.com/api/character",onSuccess, onError, token, json));
+        public void CreateCharacter( Character body, Action<Character> onSuccess, Action<string> onError, string token) {
+         
+            
+           StartCoroutine(Request("POST", $"https://bittineuvos.com/api/character",onSuccess, onError, token, JsonUtility.ToJson(body)));
         
         }
 
@@ -41,9 +37,10 @@ namespace Hacky.rest.services {
         * @summary Deletes a character
         * @param characterId character id
         */
-        public void DeleteCharacter( string characterId  , Action<string> onSuccess, Action<string> onError, string token, string json = null  ) {
-           
-           StartCoroutine(Request("DELETE", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token, json));
+        public void DeleteCharacter( string characterId, Action<Character> onSuccess, Action<string> onError, string token) {
+         
+            
+           StartCoroutine(Request("DELETE", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         
         }
 
@@ -52,9 +49,10 @@ namespace Hacky.rest.services {
         * @summary Find character
         * @param characterId character id
         */
-        public void FindCharacter( string characterId  , Action<string> onSuccess, Action<string> onError, string token, string json = null  ) {
-           
-           StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token, json));
+        public void FindCharacter( string characterId, Action<Character> onSuccess, Action<string> onError, string token) {
+         
+            
+           StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         
         }
 
@@ -63,32 +61,36 @@ namespace Hacky.rest.services {
         * @summary Lists characters
         * @param userId user id
         */
-        public void ListCharacters( string userId  , Action<string> onSuccess, Action<string> onError, string token, string json = null  ) {
-           
-           StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/list/{userId}",onSuccess, onError, token, json));
+        public void ListCharacters( string userId, Action<List<Character>> onSuccess, Action<string> onError, string token) {
+         
+            
+           StartCoroutine(Request("GET", $"https://bittineuvos.com/api/character/list/{userId}",onSuccess, onError, token));
         
         }
 
 
-        private IEnumerator Request<TModel,TError>(string reqmethod, string url, Action<TModel> onSuccess, Action<TError> onError, string token, string json = null)
+        private IEnumerator Request<TModel,TError>(string reqmethod, string url, Action<TModel> onSuccess, Action<TError> onError, string token, string data = null)
         {
 
             
-            using (UnityWebRequest www = CreateRequest(reqmethod,url,json))
+            using (UnityWebRequest www = CreateRequest(reqmethod,url,data))
             {
+                if(www == null) throw new NullReferenceException($"CreateRequest: no reqmethod {reqmethod} found");
+                if(data != null) www.SetRequestHeader("Content-Type", "application/json");
                 www.SetRequestHeader("Authorization",$"Bearer {token}");
                 yield return www.SendWebRequest();
 
                 if (www.isNetworkError || www.isHttpError)
                 {
                     Debug.Log($"{www.responseCode} : {www.downloadHandler.text}");
-                    var error = (TError)Activator.CreateInstance(typeof(TError), www.downloadHandler.text);
-                    onError(error);
+                    //var error = JsonUtility.FromJson<TError>(www.downloadHandler.text);
+                    //onError(error);
+                    onError($"{www.responseCode} : {www.downloadHandler.text}");
                 }
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    var model = (TModel)Activator.CreateInstance(typeof(TModel), www.downloadHandler.text);
+                    var model = JsonUtility.FromJson<TModel>(www.downloadHandler.text);
                     onSuccess(model);
 
                 }

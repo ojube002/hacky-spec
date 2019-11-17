@@ -12,7 +12,6 @@ namespace Hacky.rest.models {
 {{/description}}
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#isAlias}}{{>modelAlias}}{{/isAlias}}{{^isAlias}}{{#taggedUnions}}{{>modelTaggedUnion}}{{/taggedUnions}}{{^taggedUnions}}{{>modelGeneric}}{{/taggedUnions}}{{/isAlias}}{{/isEnum}}
 
-
 {{/model}}
 
 
