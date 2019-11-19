@@ -7,6 +7,114 @@ security:
   - bearer:
       []
 paths:
+  /user:
+    post:
+      operationId: createUser
+      summary: Create user
+      description: Creates a new user
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Payload
+        required: true
+      responses:
+        "200":
+          description: Created User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    put:
+      operationId: updateUser
+      summary: Updates user
+      description: Updates users information
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Payload
+        required: true
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  "/User/{userId}":
+    get:
+      operationId: findUser
+      summary: Find user
+      description: Finds user by id
+      tags:
+        - User
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          description: user id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: found user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    delete:
+      operationId: deleteUser
+      summary: Deletes a user
+      description: Deletes a user
+      tags:
+        - User
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          description: user id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
   /character:
     post:
       operationId: createCharacter
@@ -123,6 +231,19 @@ components:
       name: Authorization
       in: header
   schemas:
+    User:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - email
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
     Character:
       type: object
       required:
