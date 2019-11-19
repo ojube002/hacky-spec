@@ -1,1 +1,1 @@
-cp -r ./unity-csharp-client-generated/src/IO.Swagger/Api /mnt/c/UnityProjects/weberquest/Assets/Rest && cp -r ./unity-csharp-client-generated/src/IO.Swagger/Model /mnt/c/UnityProjects/weberquest/Assets/Rest
+cp -r ./unity-csharp-client-generated/src/IO.Swagger/Api /mnt/c/UnityProjects/Hacky/Assets/Rest && cp -r ./unity-csharp-client-generated/src/IO.Swagger/Model /mnt/c/UnityProjects/Hacky/Assets/Rest
