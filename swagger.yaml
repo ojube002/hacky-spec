@@ -224,6 +224,115 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpError"
+  /stat:
+    post:
+      operationId: createStat
+      summary: Create stat
+      description: Creates a new stat
+      tags:
+        - Stat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Stat"
+        description: Payload
+        required: true
+      responses:
+        "200":
+          description: Created a stat
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stat"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    put:
+      operationId: updateStat
+      summary: Updates stat
+      description: Updates stat information
+      tags:
+        - Stat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Stat"
+        description: Payload
+        required: true
+      responses:
+        "200":
+          description: Updated stat
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Stat"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  "/stat/{characterId}":
+    get:
+      operationId: findStat
+      summary: Find stat
+      description: Finds stat by characterId
+      tags:
+        - Stat
+      parameters:
+        - name: characterId
+          required: true
+          in: path
+          description: character id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: found user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stat"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    delete:
+      operationId: deleteStat
+      summary: Deletes a stat
+      description: Deletes a stat
+      tags:
+        - Stat
+      parameters:
+        - name: characterId
+          required: true
+          in: path
+          description: stat id
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Deleted stat successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stat"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
 components:
   securitySchemes:
     bearer:
@@ -268,6 +377,28 @@ components:
           type: string
           format: date-time
           readOnly: true
+    Stat:
+      type: object
+      required:
+        - level
+        - experience
+      properties:
+        id:
+          type: string
+        level:
+          type: integer
+          format: int32
+        experience:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
     HttpError:
       type: object
       properties:
@@ -276,3 +407,4 @@ components:
           format: int32
         message:
           type: string
+          
