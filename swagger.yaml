@@ -18,7 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/RegisterUser"
         description: Payload
         required: true
       responses:
@@ -27,7 +27,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/RegisterUser"
         default:
           description: Unexpected error
           content:
@@ -350,6 +350,19 @@ components:
         firstname:
           type: string
         lastname:
+          type: string
+        email:
+          type: string
+    RegisterUser:
+      type: object
+      required:
+        - username
+        - password
+        - email
+      properties:
+        username:
+          type: string
+        password:
           type: string
         email:
           type: string

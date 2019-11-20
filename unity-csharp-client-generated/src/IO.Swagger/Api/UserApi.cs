@@ -27,7 +27,7 @@ namespace Hacky.rest.services {
         * @summary Create user
         * @param body Payload
         */
-        public void CreateUser( User body, Action<User> onSuccess, Action<HttpError> onError, string token) {
+        public void CreateUser( RegisterUser body, Action<User> onSuccess, Action<HttpError> onError, string token) {
             
            
            StartCoroutine(ApiUtils.Request("POST", $"https://bittineuvos.com/api/user",onSuccess, onError, token, JsonUtility.ToJson(body)));
