@@ -61,12 +61,11 @@ namespace Hacky.rest.services {
         /**
         * Lists Characters
         * @summary Lists characters
-        * @param userId user id
         */
-        public void ListCharacters( string userId, Action<CharacterList> onSuccess, Action<HttpError> onError, string token) {
+        public void ListCharacters( Action<CharacterList> onSuccess, Action<HttpError> onError, string token) {
             
            
-           StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/character/list/{userId}",onSuccess, onError, token));
+           StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/characterlist",onSuccess, onError, token));
         
         }
 

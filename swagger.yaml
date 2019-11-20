@@ -62,7 +62,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpError"
-  "/User/{userId}":
+  "/user/{userId}":
     get:
       operationId: findUser
       summary: Find user
@@ -142,20 +142,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpError"
-  "/character/list/{userId}":
+  "/characterlist":
     get:
       operationId: listCharacters
       summary: Lists characters
       description: Lists Characters
       tags:
         - Character
-      parameters:
-        - name: userId
-          required: true
-          in: path
-          description: user id
-          schema:
-            type: string
       responses:
         "200":
           description: List of characters
