@@ -55,6 +55,7 @@ module.exports = function (grunt) {
           "typescript-client-generated/configuration.ts",
           "typescript-client-generated/encoder.ts",
           "typescript-client-generated/variables.ts",
+          "typescript-client-generated/api/user.service.ts",
           "typescript-spec-generated"
         ]
       },
