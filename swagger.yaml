@@ -62,20 +62,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpError"
-  "/user/{userId}":
     get:
       operationId: findUser
       summary: Find user
-      description: Finds user by id
+      description: Finds user 
       tags:
         - User
-      parameters:
-        - name: userId
-          required: true
-          in: path
-          description: user id
-          schema:
-            type: string
       responses:
         "200":
           description: found user
@@ -95,13 +87,6 @@ paths:
       description: Deletes a user
       tags:
         - User
-      parameters:
-        - name: userId
-          required: true
-          in: path
-          description: user id
-          schema:
-            type: string
       responses:
         "200":
           description: Deleted user successfully

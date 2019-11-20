@@ -37,24 +37,22 @@ namespace Hacky.rest.services {
         /**
         * Deletes a user
         * @summary Deletes a user
-        * @param userId user id
         */
-        public void DeleteUser( string userId, Action<User> onSuccess, Action<HttpError> onError, string token) {
+        public void DeleteUser( Action<User> onSuccess, Action<HttpError> onError, string token) {
             
            
-           StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/user/{userId}",onSuccess, onError, token));
+           StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/user",onSuccess, onError, token));
         
         }
 
         /**
-        * Finds user by id
+        * Finds user
         * @summary Find user
-        * @param userId user id
         */
-        public void FindUser( string userId, Action<User> onSuccess, Action<HttpError> onError, string token) {
+        public void FindUser( Action<User> onSuccess, Action<HttpError> onError, string token) {
             
            
-           StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/user/{userId}",onSuccess, onError, token));
+           StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/user",onSuccess, onError, token));
         
         }
 
