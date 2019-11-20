@@ -2,3 +2,4 @@ node_modules/
 nodejs-model-templates/
 nodejs-templates-paths/
 nodejs-templates/
+/move-client.sh
