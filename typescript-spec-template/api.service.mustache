@@ -16,7 +16,7 @@ export default abstract class {{classname}} extends AbstractService {
 
     {{#operations}}
     {{#operation}}
-    app.{{httpMethod}}(`/api${this.toPath('{{{path}}}')}`, [ keycloak.protect() ], this.catchAsync(this.{{{nickname}}}.bind(this)));
+    app.{{httpMethod}}(`/api${this.toPath('{{{path}}}')}`, [ keycloak.protect(), this.middlewareHandler.bind(this) ], this.catchAsync(this.{{{nickname}}}.bind(this)));
     {{/operation}}
     {{/operations}}
   }
