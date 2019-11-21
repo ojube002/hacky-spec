@@ -365,7 +365,7 @@ components:
           format: date-time
           readOnly: true
     FullCharacter:
-      allOf:
+      anyOf:
         - $ref: "#/components/schemas/Character"
         - $ref: "#/components/schemas/Stat"
     Stat:
