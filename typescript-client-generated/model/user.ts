@@ -12,13 +12,15 @@
 
 
 export interface User { 
-    firstname: string ;
-    lastname: string ;
-    email: string ;
+    firstname: string  | null;
+    lastname: string  | null;
+    username: string ;
+    email: string  | null;
 }    
 
 export interface UserOpt { 
     firstname?: string;
     lastname?: string;
+    username?: string;
     email?: string;
 }

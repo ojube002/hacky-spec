@@ -6,23 +6,23 @@ using System.Collections.Generic;
 namespace Hacky.rest.models {
 
     [Serializable]
-    public class User   { 
+    public class FullCharacter   { 
         
-        public string firstname;
+        public string characterId;
         
-        public string lastname;
+        public string name;
         
-        public string username;
+        public int? level;
         
-        public string email;
+        public int? experience;
         
        
     }
 
     [Serializable]
-    public class UserList
+    public class FullCharacterList
     { 
-        public List<User> items;   
+        public List<FullCharacter> items;   
     }
 
 

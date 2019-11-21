@@ -321,13 +321,13 @@ components:
     User:
       type: object
       required:
-        - firstname
-        - lastname
-        - email
+        - username
       properties:
         firstname:
           type: string
         lastname:
+          type: string
+        username:
           type: string
         email:
           type: string
