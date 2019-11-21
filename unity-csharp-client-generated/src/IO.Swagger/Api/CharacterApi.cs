@@ -58,17 +58,6 @@ namespace Hacky.rest.services {
         
         }
 
-        /**
-        * Lists Characters
-        * @summary Lists characters
-        */
-        public void ListCharacters( Action<CharacterList> onSuccess, Action<HttpError> onError, string token) {
-            
-           
-           StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/characterlist",onSuccess, onError, token));
-        
-        }
-
        
     }
 

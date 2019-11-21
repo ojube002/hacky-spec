@@ -61,7 +61,7 @@ namespace Hacky.rest.services {
         * @summary Updates user
         * @param body Payload
         */
-        public void UpdateUser( User body, Action<UserList> onSuccess, Action<HttpError> onError, string token) {
+        public void UpdateUser( User body, Action<User> onSuccess, Action<HttpError> onError, string token) {
             
            
            StartCoroutine(ApiUtils.Request("PUT", $"https://bittineuvos.com/api/user",onSuccess, onError, token, JsonUtility.ToJson(body)));

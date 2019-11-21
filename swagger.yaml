@@ -53,9 +53,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/User"
         default:
           description: Unexpected error
           content:
@@ -133,7 +131,7 @@ paths:
       summary: Lists characters
       description: Lists Characters
       tags:
-        - Character
+        - FullCharacter
       responses:
         "200":
           description: List of characters
@@ -142,7 +140,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Character"
+                  $ref: "#/components/schemas/FullCharacter"
         default:
           description: Unexpected error
           content:
@@ -248,9 +246,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Stat"
+                $ref: "#/components/schemas/Stat"
         default:
           description: Unexpected error
           content:
@@ -368,13 +364,18 @@ components:
           type: string
           format: date-time
           readOnly: true
+    FullCharacter:
+      allOf:
+        - $ref: "#/components/schemas/Character"
+        - $ref: "#/components/schemas/Stat"
     Stat:
       type: object
       required:
+        - statsId
         - level
         - experience
       properties:
-        id:
+        statsId:
           type: string
         level:
           type: integer

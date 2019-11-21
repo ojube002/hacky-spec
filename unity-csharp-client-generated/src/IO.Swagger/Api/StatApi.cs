@@ -63,7 +63,7 @@ namespace Hacky.rest.services {
         * @summary Updates stat
         * @param body Payload
         */
-        public void UpdateStat( Stat body, Action<StatList> onSuccess, Action<HttpError> onError, string token) {
+        public void UpdateStat( Stat body, Action<Stat> onSuccess, Action<HttpError> onError, string token) {
             
            
            StartCoroutine(ApiUtils.Request("PUT", $"https://bittineuvos.com/api/stat",onSuccess, onError, token, JsonUtility.ToJson(body)));

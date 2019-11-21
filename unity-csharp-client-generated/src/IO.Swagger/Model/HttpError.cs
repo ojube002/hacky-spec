@@ -6,9 +6,9 @@ using System.Collections.Generic;
 namespace Hacky.rest.models {
 
     [Serializable]
-    public class HttpError   { 
+    public class HttpError  { 
         
-        public int? code;
+        public int code;
         
         public string message;
         

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Hacky.rest.models {
 
     [Serializable]
-    public class Character   { 
+    public class Character  { 
         
         public string id;
         
@@ -16,9 +16,9 @@ namespace Hacky.rest.models {
         
         public string statsId;
         
-        public DateTime? createdAt;
+        public DateTime createdAt;
         
-        public DateTime? updatedAt;
+        public DateTime updatedAt;
         
        
     }

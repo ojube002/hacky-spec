@@ -78,7 +78,7 @@ module.exports = function (grunt) {
           "--type-mappings Date=string "
       },
       "unity-generate": {
-        command: `java -jar ${SWAGGER_JAR} generate ` +
+        command: `java -DdebugModels -jar ${SWAGGER_JAR} generate ` +
           "-i ./swagger.yaml " +
           "-l csharp " +
           "-t unity-csharp-client-template/ " +
