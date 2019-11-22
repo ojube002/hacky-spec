@@ -89,9 +89,9 @@ paths:
         "200":
           description: Deleted user successfully
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/User"
+                type: string
         default:
           description: Unexpected error
           content:
@@ -191,9 +191,9 @@ paths:
         "200":
           description: Deleted successfully character
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/Character"
+                type: string
         default:
           description: Unexpected error
           content:
@@ -292,15 +292,14 @@ paths:
           in: path
           description: stat id
           schema:
-            type: integer
-            format: int32
+            type: string
       responses:
         "200":
           description: Deleted stat successfully
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/Stat"
+                type: string
         default:
           description: Unexpected error
           content:

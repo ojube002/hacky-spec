@@ -28,7 +28,7 @@ namespace Hacky.rest.services {
         * @param body Payload
         */
         public void CreateCharacter( Character body, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("POST", $"https://bittineuvos.com/api/character",onSuccess, onError, token, JsonUtility.ToJson(body)));
         
@@ -39,8 +39,8 @@ namespace Hacky.rest.services {
         * @summary Deletes a character
         * @param characterId character id
         */
-        public void DeleteCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-            
+        public void DeleteCharacter( string characterId, Action<string> onSuccess, Action<HttpError> onError, string token) {
+           
            
            StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         
@@ -52,7 +52,7 @@ namespace Hacky.rest.services {
         * @param characterId character id
         */
         public void FindCharacter( string characterId, Action<Character> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/character/{characterId}",onSuccess, onError, token));
         

@@ -27,7 +27,7 @@ namespace Hacky.rest.services {
         * @summary Lists characters
         */
         public void ListCharacters( Action<FullCharacterList> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/characterlist",onSuccess, onError, token));
         

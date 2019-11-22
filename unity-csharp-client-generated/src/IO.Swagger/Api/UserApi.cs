@@ -27,8 +27,8 @@ namespace Hacky.rest.services {
         * @summary Create user
         * @param body Payload
         */
-        public void CreateUser( RegisterUser body, Action<User> onSuccess, Action<HttpError> onError, string token) {
-            
+        public void CreateUser( RegisterUser body, Action<RegisterUser> onSuccess, Action<HttpError> onError, string token) {
+           
            
            StartCoroutine(ApiUtils.Request("POST", $"https://bittineuvos.com/api/user",onSuccess, onError, token, JsonUtility.ToJson(body)));
         
@@ -38,8 +38,8 @@ namespace Hacky.rest.services {
         * Deletes a user
         * @summary Deletes a user
         */
-        public void DeleteUser( Action<User> onSuccess, Action<HttpError> onError, string token) {
-            
+        public void DeleteUser( Action<string> onSuccess, Action<HttpError> onError, string token) {
+           
            
            StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/user",onSuccess, onError, token));
         
@@ -50,7 +50,7 @@ namespace Hacky.rest.services {
         * @summary Find user
         */
         public void FindUser( Action<User> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/user",onSuccess, onError, token));
         
@@ -62,7 +62,7 @@ namespace Hacky.rest.services {
         * @param body Payload
         */
         public void UpdateUser( User body, Action<User> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("PUT", $"https://bittineuvos.com/api/user",onSuccess, onError, token, JsonUtility.ToJson(body)));
         

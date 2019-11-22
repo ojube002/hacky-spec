@@ -28,7 +28,7 @@ namespace Hacky.rest.services {
         * @param body Payload
         */
         public void CreateStat( Stat body, Action<Stat> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("POST", $"https://bittineuvos.com/api/stat",onSuccess, onError, token, JsonUtility.ToJson(body)));
         
@@ -39,10 +39,10 @@ namespace Hacky.rest.services {
         * @summary Deletes a stat
         * @param characterId stat id
         */
-        public void DeleteStat( int? characterId, Action<Stat> onSuccess, Action<HttpError> onError, string token) {
-            
+        public void DeleteStat( string characterId, Action<string> onSuccess, Action<HttpError> onError, string token) {
            
-           StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/stat/{characterId}",onSuccess, onError, token, JsonUtility.ToJson(characterId)));
+           
+           StartCoroutine(ApiUtils.Request("DELETE", $"https://bittineuvos.com/api/stat/{characterId}",onSuccess, onError, token));
         
         }
 
@@ -52,7 +52,7 @@ namespace Hacky.rest.services {
         * @param characterId character id
         */
         public void FindStat( string characterId, Action<Stat> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("GET", $"https://bittineuvos.com/api/stat/{characterId}",onSuccess, onError, token));
         
@@ -64,7 +64,7 @@ namespace Hacky.rest.services {
         * @param body Payload
         */
         public void UpdateStat( Stat body, Action<Stat> onSuccess, Action<HttpError> onError, string token) {
-            
+           
            
            StartCoroutine(ApiUtils.Request("PUT", $"https://bittineuvos.com/api/stat",onSuccess, onError, token, JsonUtility.ToJson(body)));
         

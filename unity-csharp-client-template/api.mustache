@@ -33,8 +33,8 @@ namespace Hacky.rest.services {
         * @param {{paramName}} {{description}}
         {{/allParams}}
         */
-        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}},{{/allParams}} Action<{{#responses}}{{#isDefault}}{{#if isListContainer}}{{{baseName}}}List{{else}}{{baseName}}{{/if}}{{/isDefault}}{{/responses}}> onSuccess, Action<HttpError> onError, string token) {
-            
+        public void {{operationId}}({{#allParams}} {{dataType}} {{paramName}},{{/allParams}} Action<{{#returnType}}{{#isListContainer}}{{{baseName}}}List{{else}}{{{returnType}}}{{/isListContainer}}{{/returnType}}> onSuccess, Action<HttpError> onError, string token) {
+           
            
            StartCoroutine(ApiUtils.Request("{{httpMethod}}", $"https://bittineuvos.com/api{{path}}",onSuccess, onError, token{{#allParams}}{{#if @first}}{{#is this 'string'}}{{else}}, JsonUtility.ToJson({{paramName}}){{/is}}{{/if}}{{/allParams}}));
         
