@@ -25,9 +25,9 @@ paths:
         "200":
           description: Created User
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/RegisterUser"
+                type: string
         default:
           description: Unexpected error
           content:
