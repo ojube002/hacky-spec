@@ -12,6 +12,8 @@ namespace Hacky.rest.models {
         
         public string name;
         
+        public string classType;
+        
         public string userId;
         
         public string statsId;

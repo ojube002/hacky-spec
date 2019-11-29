@@ -344,12 +344,15 @@ components:
       required:
         - id
         - name
+        - classType
         - userId
         - statsId
       properties:
         id:
           type: string
         name:
+          type: string
+        classType:
           type: string
         userId:
           type: string
